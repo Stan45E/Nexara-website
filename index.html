@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SwiftDesk — Custom Stationery & Courier Solutions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #16141f;
+      --ink-mid:   #3d3a4e;
+      --ink-light: #7a778e;
+      --cream:     #f9f6f0;
+      --cream-dark:#ede8df;
+      --gold:      #b8902a;
+      --gold-light:#e8c96a;
+      --gold-pale: #fdf4dc;
+      --white:     #ffffff;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans:  'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 5%;
+      background: rgba(249,246,240,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(184,144,42,0.18);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 24px rgba(22,20,31,0.07); }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: .02em;
+    }
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: .88rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: var(--ink);
+      color: var(--cream) !important;
+      padding: .55rem 1.3rem;
+      border-radius: 4px;
+    }
+    .nav-cta:hover { background: var(--gold) !important; color: var(--ink) !important; }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--ink); border-radius: 2px; transition: .3s; }
+
+    /* ─── HERO ─── */
+    #home {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding-top: 5rem;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 5% 4rem 6%;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--gold-pale);
+      border: 1px solid rgba(184,144,42,.3);
+      color: var(--gold);
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .4rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 2rem;
+      width: fit-content;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 5vw, 4.4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      color: var(--ink);
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--ink-mid);
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      line-height: 1.75;
+    }
+
+    .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--cream);
+      padding: .85rem 2rem;
+      border: none;
+      border-radius: 4px;
+      font-family: var(--sans);
+      font-size: .9rem;
+      font-weight: 500;
+      letter-spacing: .04em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .btn-primary:hover { background: var(--gold); color: var(--ink); transform: translateY(-2px); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      padding: .85rem 2rem;
+      border: 1.5px solid var(--ink);
+      border-radius: 4px;
+      font-family: var(--sans);
+      font-size: .9rem;
+      font-weight: 500;
+      letter-spacing: .04em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color .2s, color .2s, transform .15s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--cream-dark);
+    }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--ink);
+      display: block;
+    }
+    .stat-label {
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    .hero-right {
+      position: relative;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      width: 100%;
+      height: 100%;
+    }
+    .hg-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem;
+      background: var(--ink);
+      transition: background .3s;
+      cursor: default;
+    }
+    .hg-cell:hover { background: #1e1b2e; }
+    .hg-icon {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .hg-cell h3 {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      color: var(--cream);
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: .4rem;
+    }
+    .hg-cell p {
+      font-size: .78rem;
+      color: rgba(249,246,240,.45);
+      text-align: center;
+      line-height: 1.5;
+    }
+    .hg-cell:nth-child(1) { border-right: 1px solid rgba(255,255,255,.07); border-bottom: 1px solid rgba(255,255,255,.07); }
+    .hg-cell:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,.07); }
+    .hg-cell:nth-child(3) { border-right: 1px solid rgba(255,255,255,.07); }
+
+    /* ─── SECTION BASE ─── */
+    section { padding: 6rem 6%; }
+    .section-tag {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .75rem;
+      display: block;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 1.2rem;
+    }
+    .section-sub {
+      font-size: 1rem;
+      color: var(--ink-mid);
+      max-width: 560px;
+      line-height: 1.75;
+    }
+    .center { text-align: center; margin-left: auto; margin-right: auto; }
+
+    /* ─── SERVICES ─── */
+    #services { background: var(--white); }
+    .services-intro { max-width: 680px; margin: 0 auto 4rem; text-align: center; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .service-card {
+      padding: 3.5rem 3rem;
+      background: var(--cream);
+      position: relative;
+      overflow: hidden;
+      transition: background .3s;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 4px; height: 0;
+      background: var(--gold);
+      transition: height .4s ease;
+    }
+    .service-card:hover::before { height: 100%; }
+    .service-card:hover { background: var(--gold-pale); }
+
+    .service-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    .service-card h3 {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: .9rem;
+    }
+    .service-card p {
+      color: var(--ink-mid);
+      font-size: .94rem;
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+    }
+    .service-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+    }
+    .service-list li {
+      font-size: .88rem;
+      color: var(--ink-mid);
+      display: flex;
+      align-items: flex-start;
+      gap: .6rem;
+    }
+    .service-list li::before {
+      content: '→';
+      color: var(--gold);
+      font-weight: 600;
+      flex-shrink: 0;
+      margin-top: .05em;
+    }
+
+    /* ─── PRODUCTS ─── */
+    #products { background: var(--cream); }
+    .products-header { max-width: 680px; margin-bottom: 3.5rem; }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .product-card {
+      background: var(--white);
+      border: 1px solid var(--cream-dark);
+      border-radius: 8px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+      cursor: default;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(22,20,31,.08);
+      border-color: var(--gold-light);
+    }
+    .product-emoji { font-size: 2.2rem; display: block; margin-bottom: 1rem; }
+    .product-card h4 {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: .4rem;
+    }
+    .product-card p { font-size: .84rem; color: var(--ink-light); line-height: 1.6; }
+
+    /* ─── WHY US ─── */
+    #why { background: var(--ink); color: var(--cream); }
+    #why .section-title { color: var(--cream); }
+    #why .section-sub { color: rgba(249,246,240,.6); max-width: 100%; }
+
+    .why-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+      margin-top: 4rem;
+    }
+    .why-features { display: flex; flex-direction: column; gap: 2rem; }
+    .why-feature {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+    .why-num {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      min-width: 2.5rem;
+    }
+    .why-feature h4 {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: .4rem;
+    }
+    .why-feature p { font-size: .9rem; color: rgba(249,246,240,.55); line-height: 1.7; }
+
+    .why-clients { display: flex; flex-direction: column; gap: 1.5rem; }
+    .client-badge {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      transition: background .2s, border-color .2s;
+    }
+    .client-badge:hover { background: rgba(184,144,42,.1); border-color: rgba(184,144,42,.3); }
+    .client-icon { font-size: 2rem; flex-shrink: 0; }
+    .client-badge h4 { font-family: var(--serif); font-size: 1.05rem; color: var(--cream); margin-bottom: .2rem; }
+    .client-badge p { font-size: .82rem; color: rgba(249,246,240,.5); line-height: 1.5; }
+
+    /* ─── PROCESS ─── */
+    #process { background: var(--white); }
+    .process-header { max-width: 680px; margin: 0 auto 4rem; text-align: center; }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0;
+      position: relative;
+    }
+    .process-steps::after {
+      content: '';
+      position: absolute;
+      top: 2rem;
+      left: calc(200px / 2);
+      right: calc(200px / 2);
+      height: 2px;
+      background: linear-gradient(to right, var(--gold-light), var(--gold));
+      z-index: 0;
+    }
+    .step {
+      text-align: center;
+      padding: 0 1.5rem 0;
+      position: relative;
+      z-index: 1;
+    }
+    .step-num {
+      width: 4rem; height: 4rem;
+      background: var(--gold);
+      color: var(--ink);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0 auto 1.5rem;
+      border: 3px solid var(--white);
+    }
+    .step h4 {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: .5rem;
+    }
+    .step p { font-size: .84rem; color: var(--ink-light); line-height: 1.6; }
+
+    /* ─── CONTACT ─── */
+    #contact { background: var(--cream); }
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-info h2 {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .contact-info p { color: var(--ink-mid); line-height: 1.75; margin-bottom: 2rem; }
+    .contact-details { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-item {
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+    }
+    .contact-icon {
+      width: 2.2rem; height: 2.2rem;
+      background: var(--gold-pale);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .contact-item strong { display: block; font-size: .8rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-light); margin-bottom: .1rem; }
+    .contact-item span { font-size: .9rem; color: var(--ink); }
+
+    form { display: flex; flex-direction: column; gap: 1.25rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: .45rem; }
+    .form-group label {
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: .8rem 1rem;
+      border: 1.5px solid var(--cream-dark);
+      border-radius: 4px;
+      background: var(--white);
+      font-family: var(--sans);
+      font-size: .9rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color .2s;
+      resize: vertical;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--gold); }
+    .form-group textarea { min-height: 120px; }
+
+    .submit-btn {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 1rem 2.5rem;
+      border: none;
+      border-radius: 4px;
+      font-family: var(--sans);
+      font-size: .9rem;
+      font-weight: 500;
+      letter-spacing: .05em;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      align-self: flex-start;
+    }
+    .submit-btn:hover { background: var(--gold); color: var(--ink); transform: translateY(-2px); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink);
+      color: rgba(249,246,240,.6);
+      padding: 4rem 6% 2rem;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      margin-bottom: 2rem;
+    }
+    .footer-brand .nav-logo { color: var(--cream); }
+    .footer-brand p { font-size: .88rem; line-height: 1.75; margin-top: 1rem; }
+    .footer-col h5 {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(249,246,240,.9);
+      margin-bottom: 1.2rem;
+    }
+    .footer-col a {
+      display: block;
+      color: rgba(249,246,240,.5);
+      text-decoration: none;
+      font-size: .88rem;
+      margin-bottom: .65rem;
+      transition: color .2s;
+    }
+    .footer-col a:hover { color: var(--gold-light); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: .82rem;
+    }
+    .footer-bottom span { color: rgba(249,246,240,.35); }
+
+    /* ─── ANIMATIONS ─── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: none; }
+    .fade-up:nth-child(2) { transition-delay: .12s; }
+    .fade-up:nth-child(3) { transition-delay: .24s; }
+    .fade-up:nth-child(4) { transition-delay: .36s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      #home { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .why-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .process-steps::after { display: none; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 4rem 5%; }
+      .hero-left { padding: 4rem 5% 3rem; }
+      .hero-stats { gap: 1.5rem; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">Swift<span>Desk</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#process">How It Works</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="home">
+  <div class="hero-left">
+    <div class="hero-badge">✦ Chennai's Trusted Workspace Partner</div>
+    <h1 class="hero-title">
+      Custom Stationery.<br>
+      <em>Seamless</em><br>
+      Courier Logistics.
+    </h1>
+    <p class="hero-subtitle">
+      SwiftDesk crafts premium branded stationery &amp; office accessories for your team — and delivers them with our trusted courier solutions built for enterprises, schools, and growing businesses.
+    </p>
+    <div class="hero-buttons">
+      <a href="#contact" class="btn-primary">Request a Quote</a>
+      <a href="#services" class="btn-outline">Explore Services</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <span class="stat-num">500+</span>
+        <span class="stat-label">Clients Served</span>
+      </div>
+      <div>
+        <span class="stat-num">10k+</span>
+        <span class="stat-label">Orders Delivered</span>
+      </div>
+      <div>
+        <span class="stat-num">99%</span>
+        <span class="stat-label">On-Time Rate</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-grid">
+      <div class="hg-cell">
+        <span class="hg-icon">🖊️</span>
+        <h3>Branded Stationery</h3>
+        <p>Pens, notebooks &amp; letterheads with your logo</p>
+      </div>
+      <div class="hg-cell">
+        <span class="hg-icon">🖱️</span>
+        <h3>Office Accessories</h3>
+        <p>Custom mouse pads, desk sets &amp; more</p>
+      </div>
+      <div class="hg-cell">
+        <span class="hg-icon">📦</span>
+        <h3>Courier Services</h3>
+        <p>Reliable last-mile delivery for businesses</p>
+      </div>
+      <div class="hg-cell">
+        <span class="hg-icon">🏢</span>
+        <h3>Enterprise Ready</h3>
+        <p>Bulk orders &amp; SLA-backed partnerships</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVICES ─── -->
+<section id="services">
+  <div class="services-intro">
+    <span class="section-tag">What We Offer</span>
+    <h2 class="section-title">Two Pillars. One Trusted Partner.</h2>
+    <p class="section-sub">We bring together premium custom branded products and dependable courier logistics under one roof — so your business never has to look elsewhere.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card fade-up">
+      <span class="service-icon">📝</span>
+      <h3>Custom Stationery &amp; Office Accessories</h3>
+      <p>Elevate your brand with fully customized stationery and office essentials. From bulk corporate orders to school kits, we handle design, printing, and delivery.</p>
+      <ul class="service-list">
+        <li>Branded notebooks, notepads &amp; planners</li>
+        <li>Custom pens, pencils &amp; stylus sets</li>
+        <li>Personalized mouse pads &amp; desk mats</li>
+        <li>Letterheads, envelopes &amp; business cards</li>
+        <li>Gift sets &amp; onboarding kits for employees</li>
+        <li>School stationery packages</li>
+      </ul>
+    </div>
+    <div class="service-card fade-up">
+      <span class="service-icon">🚚</span>
+      <h3>Vendor Courier &amp; Logistics Solutions</h3>
+      <p>We act as a reliable courier partner for enterprises, SMBs, and educational institutions — offering SLA-backed deliveries, bulk shipment handling, and dedicated account management.</p>
+      <ul class="service-list">
+        <li>Same-day &amp; next-day delivery options</li>
+        <li>Bulk &amp; recurring shipment contracts</li>
+        <li>Dedicated enterprise account management</li>
+        <li>Real-time shipment tracking dashboard</li>
+        <li>School &amp; institution supply runs</li>
+        <li>Secure document &amp; parcel courier</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRODUCTS ─── -->
+<section id="products">
+  <div class="products-header">
+    <span class="section-tag">Our Products</span>
+    <h2 class="section-title">Everything Your Office Needs, Branded.</h2>
+    <p class="section-sub">Every item customized with your brand identity — colors, logo, and messaging. Minimum order quantities available for all business sizes.</p>
+  </div>
+  <div class="products-grid">
+    <div class="product-card fade-up">
+      <span class="product-emoji">📓</span>
+      <h4>Notebooks &amp; Planners</h4>
+      <p>Hardcover, softcover, spiral-bound with custom covers and inner branding.</p>
+    </div>
+    <div class="product-card fade-up">
+      <span class="product-emoji">🖊️</span>
+      <h4>Pens &amp; Writing Sets</h4>
+      <p>Premium pens, ballpoints, gel sets — laser engraved or printed with your logo.</p>
+    </div>
+    <div class="product-card fade-up">
+      <span class="product-emoji">🖱️</span>
+      <h4>Mouse Pads &amp; Desk Mats</h4>
+      <p>Large-format, full-color custom mouse pads for desks and workstations.</p>
+    </div>
+    <div class="product-card fade-up">
+      <span class="product-emoji">📋</span>
+      <h4>Letterheads &amp; Stationery Sets</h4>
+      <p>Professional letterheads, compliment slips, and branded envelope sets.</p>
+    </div>
+    <div class="product-card fade-up">
+      <span class="product-emoji">💼</span>
+      <h4>Onboarding &amp; Gift Kits</h4>
+      <p>Curated welcome kits for new employees, events, or client gifting.</p>
+    </div>
+    <div class="product-card fade-up">
+      <span class="product-emoji">📌</span>
+      <h4>Desk Accessories</h4>
+      <p>Sticky notes, pen holders, organizers, coasters — fully branded.</p>
+    </div>
+    <div class="product-card fade-up">
+      <span class="product-emoji">🎒</span>
+      <h4>School Stationery Packs</h4>
+      <p>Bulk school supply packs with institution name, crest, and custom designs.</p>
+    </div>
+    <div class="product-card fade-up">
+      <span class="product-emoji">📦</span>
+      <h4>Custom Packaging</h4>
+      <p>Branded boxes, bags, and wrapping for your products and deliveries.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WHY US ─── -->
+<section id="why">
+  <span class="section-tag">Why SwiftDesk</span>
+  <h2 class="section-title">Built for Business. Trusted by Institutions.</h2>
+  <p class="section-sub">We understand the urgency of enterprise operations. Our SLA-backed service and dedicated account teams ensure you're never left waiting.</p>
+  <div class="why-layout">
+    <div class="why-features">
+      <div class="why-feature fade-up">
+        <span class="why-num">01</span>
+        <div>
+          <h4>One-Stop Shop</h4>
+          <p>From designing your branded stationery to delivering it across the city — everything is handled by SwiftDesk, no juggling vendors.</p>
+        </div>
+      </div>
+      <div class="why-feature fade-up">
+        <span class="why-num">02</span>
+        <div>
+          <h4>SLA-Backed Delivery</h4>
+          <p>Every courier contract comes with guaranteed service levels. Late deliveries are not in our vocabulary — and we mean it.</p>
+        </div>
+      </div>
+      <div class="why-feature fade-up">
+        <span class="why-num">03</span>
+        <div>
+          <h4>Bulk-Ready Operations</h4>
+          <p>500 notebooks or 5,000 — our print and logistics infrastructure scales with your demand without compromising on quality or timeline.</p>
+        </div>
+      </div>
+      <div class="why-feature fade-up">
+        <span class="why-num">04</span>
+        <div>
+          <h4>Dedicated Account Manager</h4>
+          <p>Enterprise and long-term clients get a dedicated point of contact who understands your business, not a ticket queue.</p>
+        </div>
+      </div>
+    </div>
+    <div class="why-clients">
+      <div class="client-badge fade-up">
+        <span class="client-icon">🏢</span>
+        <div>
+          <h4>Enterprise &amp; Corporates</h4>
+          <p>Bulk stationery, employee kits, internal courier runs, and document delivery with complete discretion and reliability.</p>
+        </div>
+      </div>
+      <div class="client-badge fade-up">
+        <span class="client-icon">🏪</span>
+        <div>
+          <h4>Small &amp; Medium Businesses</h4>
+          <p>Affordable branded stationery without massive MOQs. Grow your brand identity without breaking the budget.</p>
+        </div>
+      </div>
+      <div class="client-badge fade-up">
+        <span class="client-icon">🏫</span>
+        <div>
+          <h4>Schools &amp; Institutions</h4>
+          <p>Custom-branded stationery for students and staff, plus reliable supply and document courier services for educational institutions.</p>
+        </div>
+      </div>
+      <div class="client-badge fade-up">
+        <span class="client-icon">🎪</span>
+        <div>
+          <h4>Events &amp; Conferences</h4>
+          <p>Last-minute event stationery, delegate kits, and on-site delivery coordination — we've got your event covered.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROCESS ─── -->
+<section id="process">
+  <div class="process-header">
+    <span class="section-tag">How It Works</span>
+    <h2 class="section-title">Simple Process. Outstanding Results.</h2>
+    <p class="section-sub">Getting started is easy. From your first inquiry to final delivery, we handle everything — with full transparency at every step.</p>
+  </div>
+  <div class="process-steps">
+    <div class="step fade-up">
+      <div class="step-num">1</div>
+      <h4>Share Your Brief</h4>
+      <p>Tell us what you need — product type, quantity, branding requirements, and delivery timeline.</p>
+    </div>
+    <div class="step fade-up">
+      <div class="step-num">2</div>
+      <h4>Get a Custom Quote</h4>
+      <p>We'll prepare a detailed quote tailored to your requirements within 24 hours.</p>
+    </div>
+    <div class="step fade-up">
+      <div class="step-num">3</div>
+      <h4>Approve &amp; Produce</h4>
+      <p>Approve the design proof or shipment plan, and our team gets to work immediately.</p>
+    </div>
+    <div class="step fade-up">
+      <div class="step-num">4</div>
+      <h4>Delivered to Your Door</h4>
+      <p>Your order arrives on time, perfectly packaged, and exactly as agreed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact">
+  <div class="contact-layout">
+    <div class="contact-info">
+      <span class="section-tag">Get In Touch</span>
+      <h2>Let's Talk About Your Requirements</h2>
+      <p>Whether you need branded stationery for your entire team or want to set up a courier partnership agreement, reach out and we'll respond within 24 hours.</p>
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <strong>Location</strong>
+            <span>Chennai, Tamil Nadu, India</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div>
+            <strong>Email</strong>
+            <span>hello@swiftdesk.in</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <strong>Phone</strong>
+            <span>+91 98400 00000</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <strong>Business Hours</strong>
+            <span>Monday – Saturday, 9am – 6pm IST</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="Priya Kumar" required />
+        </div>
+        <div class="form-group">
+          <label>Organisation</label>
+          <input type="text" placeholder="ABC Corp / School Name" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="priya@company.com" required />
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="+91 98400 00000" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>I'm Interested In</label>
+        <select>
+          <option value="">— Select a service —</option>
+          <option>Custom Stationery &amp; Branded Products</option>
+          <option>Courier &amp; Logistics Partnership</option>
+          <option>Both Services</option>
+          <option>Employee Onboarding Kits</option>
+          <option>School Stationery Package</option>
+          <option>One-Time Event Order</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Tell Us More</label>
+        <textarea placeholder="Describe your requirements — quantities, branding details, delivery timeline, or any special needs..."></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Send Enquiry →</button>
+    </form>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#home" class="nav-logo">Swift<span>Desk</span></a>
+      <p>Custom stationery, branded office accessories, and dependable courier solutions for businesses and institutions across Chennai.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <a href="#services">Custom Stationery</a>
+      <a href="#services">Courier Logistics</a>
+      <a href="#products">Office Accessories</a>
+      <a href="#services">Enterprise Solutions</a>
+    </div>
+    <div class="footer-col">
+      <h5>Who We Serve</h5>
+      <a href="#why">Enterprises</a>
+      <a href="#why">SMBs</a>
+      <a href="#why">Schools</a>
+      <a href="#why">Events</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#why">Why SwiftDesk</a>
+      <a href="#process">How It Works</a>
+      <a href="#contact">Contact Us</a>
+      <a href="#contact">Get a Quote</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 SwiftDesk. All rights reserved.</span>
+    <span>Made with care in Chennai 🧡</span>
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  function toggleMobileMenu() {
+    const links = document.querySelector('.nav-links');
+    const isOpen = links.style.display === 'flex';
+    links.style.cssText = isOpen
+      ? ''
+      : 'display:flex;flex-direction:column;position:fixed;top:4rem;left:0;right:0;background:var(--cream);padding:1.5rem 5%;gap:1.2rem;border-bottom:1px solid var(--cream-dark);z-index:99';
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.submit-btn');
+    btn.textContent = '✓ Enquiry Sent!';
+    btn.style.background = '#2d6a4f';
+    btn.style.color = '#fff';
+    setTimeout(() => {
+      btn.textContent = 'Send Enquiry →';
+      btn.style.background = '';
+      btn.style.color = '';
+      e.target.reset();
+    }, 3000);
+  }
+</script>
+</body>
+</html>
